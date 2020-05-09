@@ -184,6 +184,7 @@ let g:coc_global_extensions = [
 \ 'coc-json',
 \ ]
 
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " =============================================================================
 " Vertical line indentation
