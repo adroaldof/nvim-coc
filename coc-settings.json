@@ -1,9 +1,10 @@
 {
-  "prettier.requireConfig":true,
-  "eslint.enable":true,
+  "prettier.requireConfig": true,
+  "eslint.enable": true,
   "eslint.autoFixOnSave":true,
-  "coc.preferences.formatOnSaveFiletypes":[
+  "coc.preferences.formatOnSaveFiletypes": [
     "css",
+    "json",
     "markdown",
     "javascript",
     "javascriptreact",
