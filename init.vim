@@ -23,11 +23,19 @@ nnoremap  <leader>y  "+y
 nnoremap  <leader>yy  "+yy
 
 " Window navigation
-
+"
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+" Resize windows with arrow keys
+"
+nnoremap <D-Up> <C-w>+
+nnoremap <D-Down> <C-w>-
+nnoremap <D-Left> <C-w><
+nnoremap <D-Right>  <C-w>>
+
 
 " =============================================================================
 " Miscellaneous 
