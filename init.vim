@@ -41,7 +41,7 @@ nnoremap <D-Right>  <C-w>>
 " Miscellaneous 
 " =============================================================================
 "
-colorscheme night-owl
+colorscheme gruvbox
 filetype plugin indent on
 syntax enable
 hi CursorLine term=bold cterm=bold guibg=#052234
@@ -66,7 +66,7 @@ set number                      " Line numbers are good
 set relativenumber              " Set relative numbers to vim
 set showcmd                     " Show incomplete commands down the bottom
 set showmode                    " Show current mode down the bottom
-set spell spelllang=en_us,pt_br " Check spell of the the languages
+set spell spelllang=en_us,pt_br " Check spell of the languages
 set termguicolors
 
 
