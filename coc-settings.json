@@ -2,6 +2,21 @@
   "prettier.requireConfig": true,
   "eslint.enable": true,
   "eslint.autoFixOnSave":true,
+
+  "explorer.width":30,
+  "explorer.file.showHiddenFiles":true,
+  "explorer.file.column.indent.indentLine": true,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.previewAction.onHover": false,
+  "explorer.keyMappings": {
+    "<cr>": ["expandable?", "expand", "open"],
+    "v": "open:vsplit"
+  },
+
+  "tsserver.enable": true,
+  "tsserver.log": "verbose",
+  "typescript.preferences.importModuleSpecifier": "auto",
+
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "json",
