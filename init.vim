@@ -3,6 +3,7 @@
 " =============================================================================
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'ryanoasis/vim-devicons'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'dif' : '~/.fzf', 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -342,7 +343,7 @@ Plug 'Yggdroot/indentLine'
 "
 " let g:indentLine_color_term = 202
 " let g:indentLine_color_gui = '#a4e57e'
-let g:indentLine_char = '┊'
+let g:indentLine_char = '│'
 autocmd Filetype json let g:indentLine_enabled = 0
 
 
