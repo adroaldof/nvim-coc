@@ -3,18 +3,19 @@
 " =============================================================================
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'ryanoasis/vim-devicons'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'Yggdroot/indentLine'
+Plug 'airblade/vim-gitgutter'
+Plug 'garbas/vim-snipmate'
+Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'dif' : '~/.fzf', 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'Yggdroot/indentLine'
-Plug 'itchyny/lightline.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'tomtom/tcomment_vim'
 Plug 'morhetz/gruvbox'
-Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'python/black'
+Plug 'ryanoasis/vim-devicons'
+Plug 'tomtom/tcomment_vim'
 Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
 
 call plug#end()
 
@@ -141,6 +142,7 @@ set noswapfile
 set nowb
 
 
+
 " =============================================================================
 " Completion
 " =============================================================================
@@ -166,15 +168,14 @@ set nowb
 "
 " let g:python_host_prog = '/usr/local/bin/python'
 " let g:python3_host_prog = '/usr/bin/python3'
-
+autocmd BufWritePre *.py execute ':Black'
+let g:black_linelength = 120
 
 
 " =============================================================================
 " CoC
 " =============================================================================
 "
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 " TextEdit might fail if hidden is not set.
 set hidden
 
@@ -339,8 +340,6 @@ nnoremap <c-f> :Ag<cr>
 " Vertical line indentation
 " =============================================================================
 "
-Plug 'Yggdroot/indentLine'
-"
 " let g:indentLine_color_term = 202
 " let g:indentLine_color_gui = '#a4e57e'
 let g:indentLine_char = '│'
@@ -350,8 +349,6 @@ autocmd Filetype json let g:indentLine_enabled = 0
 " =============================================================================
 " Vertical line indentation
 " =============================================================================
-"
-Plug 'itchyny/lightline.vim'
 "
 " If not work set the follow line on '.vimrc'
 set laststatus=2 " Light line configuration
