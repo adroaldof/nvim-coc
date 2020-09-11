@@ -169,7 +169,6 @@ set nowb
 " let g:python_host_prog = '/usr/local/bin/python'
 " let g:python3_host_prog = '/usr/bin/python3'
 autocmd BufWritePre *.py execute ':Black'
-let g:black_linelength = 120
 
 
 " =============================================================================

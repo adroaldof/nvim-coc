@@ -19,6 +19,7 @@
   "tsserver.log": "verbose",
   "typescript.preferences.importModuleSpecifier": "auto",
 
+  "python.jediEnabled": true,
   "python.linting.enabled": true,
   "python.linting.pylintPath": "pylint",
   "python.linting.pylintArgs": ["--rcfile", "./.pylintrc"],
