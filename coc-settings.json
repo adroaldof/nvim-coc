@@ -1,22 +1,28 @@
 {
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "scss",
+    "less",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "markdown",
+    "python",
+    "typescript",
+    "typescriptreact",
+    "svg"
+  ],
+
   "prettier.requireConfig": true,
+  "prettier.disableSuccessMessage": true,
+
   "eslint.enable": true,
   "eslint.autoFixOnSave": true,
-
-  "explorer.width": 30,
-  "explorer.file.showHiddenFiles": true,
-  "explorer.file.column.indent.indentLine": true,
-  "explorer.icon.enableNerdfont": true,
-  "explorer.icon.enableVimDevicons": true,
-  "explorer.previewAction.onHover": false,
-  "explorer.file.column.git.showIgnored": true,
-  "explorer.keyMappings": {
-    "<cr>": ["expandable?", "expand", "open"],
-    "v": "open:vsplit"
-  },
+  "eslint.filetypes":["javascript", "javascriptreact", "typescript", "typescriptreact"],
 
   "tsserver.enable": true,
   "tsserver.log": "verbose",
+
   "typescript.preferences.importModuleSpecifier": "auto",
 
   "python.jediEnabled": true,
@@ -24,17 +30,21 @@
   "python.linting.pylintPath": "pylint",
   "python.linting.pylintArgs": ["--rcfile", "./.pylintrc"],
   "python.formatting.provider": "black",
-  "python.formatting.blackPath": "black",
+  "python.formatting.blackPath": "/Users/adr/.local/share/virtualenvs/drf-api-NgGjwmfI/bin/black",
 
-  "coc.preferences.formatOnSaveFiletypes": [
-    "css",
-    "javascript",
-    "javascriptreact",
-    "json",
-    "markdown",
-    "python",
-    "typescript",
-    "typescriptreact"
-  ]
+  "emmet.showExpandedAbbreviation": "always",
+  "emmet.includeLanguages": {"javascript": "javascriptreact", "typescript": "typescriptreact"},
+
+  "explorer.width": 40,
+  "explorer.file.showHiddenFiles": true,
+  "explorer.file.column.indent.indentLine": true,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.icon.enableVimDevicons": true,
+  "explorer.previewAction.onHover": false, 
+  "explorer.git.showIgnored": true,
+  "explorer.keyMappings.global": {
+    "<cr>": ["expandable?", "expand", "open"],
+    "v": "open:vsplit"
+  }
 }
 

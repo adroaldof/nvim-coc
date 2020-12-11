@@ -7,25 +7,40 @@ Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'garbas/vim-snipmate'
+Plug 'haishanh/night-owl.vim'
 Plug 'itchyny/lightline.vim'
+Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dif' : '~/.fzf', 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'morhetz/gruvbox'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'python/black'
 Plug 'ryanoasis/vim-devicons'
+Plug 'sheerun/vim-polyglot'
 Plug 'tomtom/tcomment_vim'
 Plug 'tomtom/tlib_vim'
 
+" Themes (Theme definition: next to line 70)
+Plug 'rakr/vim-one'
+let g:one_allow_italics = 1
+" Plug 'jacoborus/tender.vim'
+" Plug 'morhetz/gruvbox'
+" Plug 'mhartington/oceanic-next'
+" let g:oceanic_next_terminal_bold = 1
+" let g:oceanic_next_terminal_italic = 1
+
 call plug#end()
 
+
+" =============================================================================
+" Leader
+" ============================================================================
+"
 let mapleader="\<space>"
 
 
 " =============================================================================
 " Bindings
-" =============================================================================
-
+" ============================================================================
 " Manage plugins
 "
 nnoremap <leader>ve :vsplit ~/.config/nvim/init.vim<CR>
@@ -60,11 +75,12 @@ nnoremap <D-Right>  <C-w>>
 " Miscellaneous
 " =============================================================================
 "
-colorscheme gruvbox
+syntax on
+colorscheme night-owl
 filetype plugin indent on
-syntax enable
 hi CursorLine term=bold cterm=bold guibg=#052234
 
+set termguicolors
 set encoding=UTF-8
 set guifont=Fira\ Code:h15
 
@@ -86,7 +102,6 @@ set relativenumber              " Set relative numbers to vim
 set showcmd                     " Show incomplete commands down the bottom
 set showmode                    " Show current mode down the bottom
 set spell spelllang=en_us,pt_br " Check spell of the languages
-set termguicolors
 
 
 " =============================================================================
@@ -140,7 +155,6 @@ set smartcase                   " ...unless we type a capital
 set nobackup
 set noswapfile
 set nowb
-
 
 
 " =============================================================================
@@ -330,9 +344,25 @@ Plug 'junegunn/fzf.vim'
 
 " Ctrl + f to find files
 nnoremap <c-p> :Files<cr>
+" nnoremap <c-p> :GFiles --cached --others --exclude-standard<cr>
 
 " Ctrl + f to search for a pattern
 nnoremap <c-f> :Ag<cr>
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 
 
 " =============================================================================
@@ -356,7 +386,7 @@ set laststatus=2 " Light line configuration
 set laststatus=2
 
 let g:lightline = {
-      \ 'colorscheme': 'gruvbox',
+      \ 'colorscheme': 'nightowl',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
@@ -407,3 +437,35 @@ function! GetFileFormat()
   return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
 endfunction
 
+
+" =============================================================================
+" Prettier and ESLint
+" =============================================================================
+"
+" if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+"   let g:coc_global_extensions += ['coc-prettier']
+" endif
+"
+" if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+"   let g:coc_global_extensions += ['coc-eslint']
+" endif
+
+
+" =============================================================================
+" Diagnostics or Docs
+" =============================================================================
+"
+nnoremap <silent> K :call CocAction('doHover')<CR>
+
+" function! ShowDocIfNoDiagnostic(timer_id)
+"   if (coc#float#has_float() == 0)
+"     silent call CocActionAsync('doHover')
+"   endif
+" endfunction
+"
+" function! s:show_hover_doc()
+"   call timer_start(500, 'ShowDocIfNoDiagnostic')
+" endfunction
+"
+" autocmd CursorHoldI * :call <SID>show_hover_doc()
+" autocmd CursorHold * :call <SID>show_hover_doc()
