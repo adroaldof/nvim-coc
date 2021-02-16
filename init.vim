@@ -7,7 +7,7 @@ Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'garbas/vim-snipmate'
-Plug 'haishanh/night-owl.vim'
+Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dif' : '~/.fzf', 'do': { -> fzf#install() } }
@@ -18,8 +18,10 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
 Plug 'tomtom/tcomment_vim'
 Plug 'tomtom/tlib_vim'
+Plug 'tpope/vim-surround'
 
 " Themes (Theme definition: next to line 70)
+Plug 'haishanh/night-owl.vim'
 Plug 'rakr/vim-one'
 let g:one_allow_italics = 1
 " Plug 'jacoborus/tender.vim'
@@ -29,6 +31,14 @@ let g:one_allow_italics = 1
 " let g:oceanic_next_terminal_italic = 1
 
 call plug#end()
+
+" =============================================================================
+" ReplaceWithRegister
+" ============================================================================
+"
+nmap <Leader>r  <Plug>ReplaceWithRegisterOperator
+nmap <Leader>rr <Plug>ReplaceWithRegisterLine
+xmap <Leader>r  <Plug>ReplaceWithRegisterVisual
 
 
 " =============================================================================
@@ -83,6 +93,8 @@ hi CursorLine term=bold cterm=bold guibg=#052234
 set termguicolors
 set encoding=UTF-8
 set guifont=Fira\ Code:h15
+
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 
 " =============================================================================
@@ -386,7 +398,7 @@ set laststatus=2 " Light line configuration
 set laststatus=2
 
 let g:lightline = {
-      \ 'colorscheme': 'nightowl',
+      \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
