@@ -10,7 +10,8 @@
     "python",
     "typescript",
     "typescriptreact",
-    "svg"
+    "svg",
+    "go"
   ],
 
   "prettier.requireConfig": true,
@@ -36,9 +37,19 @@
   "python.linting.pylintPath": "/Users/adr/.local/share/virtualenvs/drf-api-NgGjwmfI/bin/pylint",
   "python.linting.pylintArgs": ["--rcfile", "./.pylintrc"],
   "python.linting.flake8Enabled":false,
-
   "python.formatting.provider": "black",
   "python.formatting.blackPath": "/Users/adr/.local/share/virtualenvs/drf-api-NgGjwmfI/bin/black",
+
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"]
+    }
+  },
+  "go.goplsOptions": {
+    "staticcheck": true
+  },
 
   "emmet.showExpandedAbbreviation": "always",
   "emmet.includeLanguages": {"javascript": "javascriptreact", "typescript": "typescriptreact"},
@@ -53,6 +64,12 @@
   "explorer.keyMappings.global": {
     "<cr>": ["expandable?", "expand", "open"],
     "v": "open:vsplit"
-  }
+  },
+
+  "suggest.noselect": false,
+
+  "diagnostic.errorSign": "✘",
+  "diagnostic.infoSign": "?",
+  "diagnostic.checkCurrentLine": true
 }
 
