@@ -97,6 +97,8 @@ set guifont=Fira\ Code:h15
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
+let g:vim_json_syntax_conceal = 0
+let g:vim_markdown_conceal = 0
 
 " =============================================================================
 " General settings
