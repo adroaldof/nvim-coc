@@ -20,6 +20,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tomtom/tcomment_vim'
 Plug 'tomtom/tlib_vim'
 Plug 'tpope/vim-surround'
+Plug 'hashivim/vim-terraform'
 
 " Themes (Theme definition: next to line 70)
 Plug 'haishanh/night-owl.vim'
@@ -517,3 +518,12 @@ let g:go_highlight_generate_tags = 1
 autocmd BufEnter *.go nmap <leader>t  <Plug>(go-test)
 autocmd BufEnter *.go nmap <leader>tt <Plug>(go-test-func)
 autocmd BufEnter *.go nmap <leader>c  <Plug>(go-coverage-toggle)
+
+
+" =============================================================================
+" Terraforma
+" =============================================================================
+"
+let g:terraform_fmt_on_save=1
+let g:terraform_align=1
+
