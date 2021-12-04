@@ -8,6 +8,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'garbas/vim-snipmate'
+Plug 'hashivim/vim-terraform'
 Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
@@ -20,40 +21,45 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tomtom/tcomment_vim'
 Plug 'tomtom/tlib_vim'
 Plug 'tpope/vim-surround'
-Plug 'hashivim/vim-terraform'
 
-" Themes (Theme definition: next to line 70)
-Plug 'haishanh/night-owl.vim'
-Plug 'rakr/vim-one'
-let g:one_allow_italics = 1
-" Plug 'jacoborus/tender.vim'
-" Plug 'morhetz/gruvbox'
-" Plug 'mhartington/oceanic-next'
-" let g:oceanic_next_terminal_bold = 1
-" let g:oceanic_next_terminal_italic = 1
+" Theme
+Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end()
 
+
 " =============================================================================
-" ReplaceWithRegister
-" ============================================================================
-"
-nmap <Leader>r  <Plug>ReplaceWithRegisterOperator
-nmap <Leader>rr <Plug>ReplaceWithRegisterLine
-xmap <Leader>r  <Plug>ReplaceWithRegisterVisual
+" Theme related
+" =============================================================================
+
+set t_Co=256
+set background=dark
+colorscheme PaperColor
+
+set encoding=UTF-8
+set guifont=Fira\ Code:h12
+
+let g:vim_json_syntax_conceal = 0
+let g:vim_markdown_conceal = 0
+let g:allow_bold = 1
+let g:allow_italic = 1
+let hightlight_builtins = 1
+
+if (has("termguicolors"))
+ set termguicolors
+endif
 
 
 " =============================================================================
 " Leader
 " ============================================================================
-"
+
 let mapleader="\<space>"
 
 
 " =============================================================================
-" Bindings
-" ============================================================================
-" Manage plugins
+" Configuration and plugin management
+" =============================================================================
 "
 nnoremap <leader>ve :vsplit ~/.config/nvim/init.vim<CR>
 nnoremap <leader>vs :source ~/.config/nvim/init.vim<CR>
@@ -61,84 +67,194 @@ nnoremap <leader>pi :PlugInstall<CR>
 nnoremap <leader>pu :PlugUpdate<CR>
 nnoremap <leader>pc :PlugClean<CR>
 
+
+" =============================================================================
+" ReplaceWithRegister
+" ============================================================================
+
+nmap <Leader>r  <Plug>ReplaceWithRegisterOperator
+nmap <Leader>rr <Plug>ReplaceWithRegisterLine
+xmap <Leader>r  <Plug>ReplaceWithRegisterVisual
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 " Copy to clipboard
-"
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 vnoremap  <leader>y  "+y
 nnoremap  <leader>Y  "+yg_
 nnoremap  <leader>y  "+y
-nnoremap  <leader>yy  "+yy
+nnoremap  <leader>yy "+yy
 
-" Window navigation
-"
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
 
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Navigate between views
+"  CTRL+j, CTRL+k, CTRL+h, or CTRL+l.
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 " Resize windows with arrow keys
-"
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 nnoremap <D-Up> <C-w>+
 nnoremap <D-Down> <C-w>-
 nnoremap <D-Left> <C-w><
-nnoremap <D-Right>  <C-w>>
+nnoremap <D-Right> <C-w>>
 
 
-" =============================================================================
-" Miscellaneous
-" =============================================================================
-"
-syntax on
-colorscheme night-owl
-filetype plugin indent on
-hi CursorLine term=bold cterm=bold guibg=#052234
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Show cursor only in the active view
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-set termguicolors
-set encoding=UTF-8
-set guifont=Fira\ Code:h15
+augroup cursor_off
+    autocmd!
+    autocmd WinLeave * set nocursorline nocursorcolumn
+    autocmd WinEnter * set cursorline cursorcolumn
+augroup END
 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
-let g:vim_json_syntax_conceal = 0
-let g:vim_markdown_conceal = 0
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Some remaps
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+nnoremap Y y$                   " Yank until the end of line
+nnoremap n nzzz                 " Keep centered on next find word
+nnoremap N Nzzz                 " Keep centered on back find word
+nnoremap J mzJ`z                " Keep centered in line concatenation
+
+" Moving text around
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+inoremap <C-j> <esc>:m .+1<CR>==
+inoremap <C-k> <esc>:m .-2<CR>==
+nnoremap <leader>j :m .+1<CR>==
+nnoremap <leader>k :m .-2<CR>==
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Highlight yanked text
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+augroup highlightYankedText
+    autocmd!
+    autocmd TextYankPost * call FlashYankedText()
+augroup END
+
+function! FlashYankedText()
+    if (!exists('g:yankedTextMatches'))
+        let g:yankedTextMatches = []
+    endif
+
+    let matchId = matchadd('IncSearch', ".\\%>'\\[\\_.*\\%<']..")
+    let windowId = winnr()
+
+    call add(g:yankedTextMatches, [windowId, matchId])
+    call timer_start(500, 'DeleteTemporaryMatch')
+endfunction
+
+function! DeleteTemporaryMatch(timerId)
+    while !empty(g:yankedTextMatches)
+        let match = remove(g:yankedTextMatches, 0)
+        let windowID = match[0]
+        let matchID = match[1]
+
+        try
+            call matchdelete(matchID, windowID)
+        endtry
+    endwhile
+endfunction
+
 
 " =============================================================================
 " General settings
 " =============================================================================
-"
+
 set autoread                    " Reload files changed outside vim
-set background=dark
 set backspace=indent,eol,start  " Allow backspace in insert mode
-set cursorline
-set hidden			                " Enable background Buffers
-set history=1000                " Store lots of :cmd line history
-set mouse=a 			              " Enable mouse
+set confirm                     " Raise a dialog instead of failing a command
+set gcr=a:blinkon0              " Disable cursor blink
+set hidden                      " Hide buffers from editor window
+set history=1000                " Store lots of :cmdline history
+set lazyredraw                  " Redraw screen only when it is needed
+set nostartofline               " Stop certain movements from always going to the first char of a line
 set nrformats=                  " Set decimals numbers as default
 set number                      " Line numbers are good
 set relativenumber              " Set relative numbers to vim
 set showcmd                     " Show incomplete commands down the bottom
+set showmatch                   " Show the matching brackets
 set showmode                    " Show current mode down the bottom
-set spell spelllang=en_us,pt_br " Check spell of the languages
+set visualbell                  " No sounds
 
 
-" =============================================================================
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Cursor
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+set cursorline                  " Enable cursor line
+set cursorcolumn                " Enable cursor column
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Spelling Configurations
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+set spell spelllang=en_us,pt_br  " Set spell checker
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 " Indentation
-" =============================================================================
-"
-set autoindent
-set expandtab
-set linebreak                   " Wrap lines at convenient point
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+set autoindent                  " Copy indent from current line when starting a new line
+set expandtab                   " Use the appropriate number of spaces to insert a <Tab>
+set linebreak                   " Wrap lines at convenient points
 set nowrap                      " Don't wrap lines
-set shiftwidth=2
-set smartindent
-set smarttab
-set softtabstop=2
-set tabstop=2
+set shiftwidth=2                " Number of spaces to use for each step of (auto)indent
+set smartindent                 " Automatically follow the indentations
+set smarttab                    " Insert blanks according the following settings
+set softtabstop=2               " Number of spaces that a <Tab> counts for
+set tabstop=2                   " Number of spaces that a <Tab> counts for
+
+hi IndentGuidesOdd  ctermbg=black
+hi IndentGuidesEven ctermbg=darkgrey
+
+set list
+set listchars=tab:→\ ,nbsp:␣,trail:•,precedes:«,extends:»
+
+" Yggdroot/indentLine options
+let g:indentLine_char = '┊'
+let g:indentLine_color_gui = '#1c1c1c'
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Files
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+syntax on                       " Turn on syntax highlighting
+filetype plugin on
+filetype indent on
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Turn Off Swap Files
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+set noswapfile
+set nobackup
+set nowb
+set nowritebackup
 
 
 " =============================================================================
 " Folding
 " =============================================================================
-"
+
 set foldmethod=indent           " Fold based on indent
 set foldnestmax=5               " Deepest fold is 5 levels
 set nofoldenable                " Don't fold by default
@@ -147,7 +263,7 @@ set nofoldenable                " Don't fold by default
 " =============================================================================
 " Scrolling
 " =============================================================================
-"
+
 set scrolloff=8                 " Start scrolling when 8 lines from margins
 set sidescrolloff=15
 set sidescroll=1
@@ -156,61 +272,146 @@ set sidescroll=1
 " =============================================================================
 " Search
 " =============================================================================
-"
+
 set hlsearch                    " Highlight searches by default
-set ignorecase                  " Ignore case when searching...
-set inccommand=split
+set ignorecase                  " Ignore case when searching
 set incsearch                   " Find the next match as we type the search
-set smartcase                   " ...unless we type a capital
+set smartcase                   " When type capital use it
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Code completion
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+set wildmenu                    " Enable ctrl-n and ctrl-p to scroll thru matches
+set wildmode=list:longest       " Wildmode type
+set wildignore=*.o,*.obj,*~     " Stuff to ignore when tab completing
+set wildignore+=*.gem
+set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=*DS_Store*
+set wildignore+=*sass-cache*
+set wildignore+=*vim/backups*
+set wildignore+=bower_components/**
+set wildignore+=log/**
+set wildignore+=node_modules/**
+set wildignore+=tmp/**
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Persistent undo history across sessions
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+if has('persistent_undo') && !isdirectory(expand('~').'/.vim/backups')
+  silent !mkdir ~/.vim/backups > /dev/null 2>&1
+  set undodir=~/.vim/backups
+  set undofile
+endif
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Enable mouse
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+if has('mouse')
+    set mouse=a
+endif
 
 
 " =============================================================================
-" Swap Files
+" Fzf - search and file oppener
 " =============================================================================
-"
-set nobackup
-set noswapfile
-set nowb
+
+Plug 'junegunn/fzf', { 'dif' : '~/.fzf', 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Ctrl + f to find files
+nnoremap <c-p> :Files<cr>
+" nnoremap <c-p> :GFiles --cached --others --exclude-standard<cr>
+
+" Ctrl + f to search for a pattern
+nnoremap <c-f> :Ag<cr>
+
+let g:fzf_colors = {
+  \ 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment']
+  \ }
 
 
 " =============================================================================
-" Completion
+" Vertical line indentation
 " =============================================================================
-"
-" set wildmenu                    " Enable ctrl-n and ctrl-p to scroll through matches
-" set wildmode=list:longest
-" set wildignore+=*.gem
-" set wildignore+=*.png,*.jpg,*.gif
-" set wildignore+=*DS_Store*
-" set wildignore+=*sass-cache*
-" set wildignore+=*vim/backups*
-" set wildignore+=__pycache__/**
-" set wildignore+=bower_components/**
-" set wildignore+=log/**
-" set wildignore+=node_modules/**
-" set wildignore+=tmp/**
-" set wildignore=*.o,*.obj,*~     " Stuff to ignore when tab completing
+
+" let g:indentLine_char = '│'
+" autocmd Filetype json let g:indentLine_enabled = 0
 
 
 " =============================================================================
-" Python
+" Vertical line indentation
 " =============================================================================
-"
-" let g:python_host_prog = '/usr/local/bin/python'
-" let g:python3_host_prog = '/usr/bin/python3'
-autocmd BufWritePre *.py execute ':Black'
+
+let g:lightline = {
+      \ 'colorscheme': 'PaperColor',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'fileencoding', 'fileformat', 'filetype', 'charvaluehex' ] ]
+      \ },
+      \ 'component_function': {
+      \   'readonly': 'GetCustomReadOnly',
+      \   'fugitive': 'GetGitBranch',
+      \   'filename': 'GetFileName'
+      \ },
+      \ 'separator': { 'left': '⮀', 'right': '|' },
+      \ 'subseparator': { 'left': '⮁', 'right': '|' }
+      \ }
+
+
+function! GetCustomReadOnly()
+  if &filetype == "help"
+    return ""
+  elseif &readonly
+    return "⭤ "
+  else
+    return ""
+  endif
+endfunction
+
+function! GetGitBranch()
+  if exists("*fugitive#head")
+    let _ = fugitive#head()
+    return strlen(_) ? '⭠ '._ : ''
+  endif
+  return ''
+endfunction
+
+function! GetFileName()
+  return ('' != GetCustomReadOnly() ? GetCustomReadOnly() . ' ' : '') .
+       \ ('' != expand('%') ? expand('%') : '[NoName]')
+endfunction
+
+function! GetFileType()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! GetFileFormat()
+  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
 
 
 " =============================================================================
 " CoC
 " =============================================================================
-"
-" TextEdit might fail if hidden is not set.
-set hidden
-
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
 
 " Give more space for displaying messages.
 set cmdheight=2
@@ -229,16 +430,16 @@ set signcolumn=yes
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -291,29 +492,6 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current line.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Introduce function text object
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" Use <TAB> for selections ranges.
-" NOTE: Requires 'textDocument/selectionRange' support from the language server.
-" coc-tsserver, coc-python are the examples of servers that support it.
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
-
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
 
@@ -352,144 +530,9 @@ autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | end
 
 
 " =============================================================================
-" Fzf
-" =============================================================================
-"
-Plug 'junegunn/fzf', { 'dif' : '~/.fzf', 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-" Ctrl + f to find files
-nnoremap <c-p> :Files<cr>
-" nnoremap <c-p> :GFiles --cached --others --exclude-standard<cr>
-
-" Ctrl + f to search for a pattern
-nnoremap <c-f> :Ag<cr>
-
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-
-
-" =============================================================================
-" Vertical line indentation
-" =============================================================================
-"
-" let g:indentLine_color_term = 202
-" let g:indentLine_color_gui = '#a4e57e'
-let g:indentLine_char = '│'
-autocmd Filetype json let g:indentLine_enabled = 0
-
-
-" =============================================================================
-" Vertical line indentation
-" =============================================================================
-"
-" If not work set the follow line on '.vimrc'
-set laststatus=2 " Light line configuration
-
-" Use status bar even with single buffer
-set laststatus=2
-
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
-      \   'right': [ [ 'lineinfo' ],
-      \              [ 'percent' ],
-      \              [ 'fileencoding', 'fileformat', 'filetype', 'charvaluehex' ] ]
-      \ },
-      \ 'component_function': {
-      \   'readonly': 'GetCustomReadOnly',
-      \   'fugitive': 'GetGitBranch',
-      \   'filename': 'GetFileName'
-      \ },
-      \ 'separator': { 'left': '⮀', 'right': '|' },
-      \ 'subseparator': { 'left': '⮁', 'right': '|' }
-      \ }
-
-"      \   'filetype': 'GetFileType',
-"      \   'fileformat': 'GetFileFormat'
-
-function! GetCustomReadOnly()
-  if &filetype == "help"
-    return ""
-  elseif &readonly
-    return "⭤ "
-  else
-    return ""
-  endif
-endfunction
-
-function! GetGitBranch()
-  if exists("*fugitive#head")
-    let _ = fugitive#head()
-    return strlen(_) ? '⭠ '._ : ''
-  endif
-  return ''
-endfunction
-
-function! GetFileName()
-  return ('' != GetCustomReadOnly() ? GetCustomReadOnly() . ' ' : '') .
-       \ ('' != expand('%') ? expand('%') : '[NoName]')
-endfunction
-
-function! GetFileType()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
-endfunction
-
-function! GetFileFormat()
-  return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
-endfunction
-
-
-" =============================================================================
-" Prettier and ESLint
-" =============================================================================
-"
-" if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-"   let g:coc_global_extensions += ['coc-prettier']
-" endif
-"
-" if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-"   let g:coc_global_extensions += ['coc-eslint']
-" endif
-
-
-" =============================================================================
-" Diagnostics or Docs
-" =============================================================================
-"
-nnoremap <silent> K :call CocAction('doHover')<CR>
-
-" function! ShowDocIfNoDiagnostic(timer_id)
-"   if (coc#float#has_float() == 0)
-"     silent call CocActionAsync('doHover')
-"   endif
-" endfunction
-"
-" function! s:show_hover_doc()
-"   call timer_start(500, 'ShowDocIfNoDiagnostic')
-" endfunction
-"
-" autocmd CursorHoldI * :call <SID>show_hover_doc()
-" autocmd CursorHold * :call <SID>show_hover_doc()
-
-" =============================================================================
 " Go
 " =============================================================================
-"
+
 " disable all linters as that is taken care of by coc.nvim
 let g:go_diagnostics_enabled = 0
 let g:go_metalinter_enabled = []
@@ -521,9 +564,18 @@ autocmd BufEnter *.go nmap <leader>c  <Plug>(go-coverage-toggle)
 
 
 " =============================================================================
-" Terraforma
+" Terraform
 " =============================================================================
-"
+
 let g:terraform_fmt_on_save=1
 let g:terraform_align=1
+
+
+" =============================================================================
+" Python
+" =============================================================================
+
+" let g:python_host_prog = '/usr/local/bin/python'
+" let g:python3_host_prog = '/usr/bin/python3'
+autocmd BufWritePre *.py execute ':Black'
 
