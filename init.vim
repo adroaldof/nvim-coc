@@ -3,12 +3,12 @@
 " =============================================================================
 call plug#begin('~/.config/nvim/plugged')
 
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'SirVer/ultisnips'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'github/copilot.vim'
 Plug 'hashivim/vim-terraform'
 Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'itchyny/lightline.vim'
@@ -21,6 +21,7 @@ Plug 'neoclide/coc-prettier'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
 Plug 'peitalin/vim-jsx-typescript'
+Plug 'preservim/nerdtree'
 Plug 'python/black'
 Plug 'reedes/vim-lexical'
 Plug 'ryanoasis/vim-devicons'
@@ -30,7 +31,7 @@ Plug 'tomtom/tlib_vim'
 Plug 'tpope/vim-surround'
 
 " Theme
-Plug 'NLKNguyen/papercolor-theme'
+" Plug 'NLKNguyen/papercolor-theme'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 
@@ -107,6 +108,44 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+
+
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Nerdtree
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+map <c-b> :NERDTreeToggle<CR>
+
+let g:webdevicons_enable_nerdtree = 1
+
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+  \ 'Modified'  :'✹',
+  \ 'Staged'    :'✚',
+  \ 'Untracked' :'✭',
+  \ 'Renamed'   :'➜',
+  \ 'Unmerged'  :'═',
+  \ 'Deleted'   :'✖',
+  \ 'Dirty'     :'✗',
+  \ 'Ignored'   :'☒',
+  \ 'Clean'     :'✔︎',
+  \ 'Unknown'   :'?',
+  \ }
+
+" enable line numbers
+let NERDTreeShowLineNumbers=1
+" make sure relative line numbers are used
+autocmd FileType nerdtree setlocal relativenumber
+
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" NERDTress File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+    exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+    exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+let NERDTreeIgnore=['__pycache__', '.vscode']
 
 
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
