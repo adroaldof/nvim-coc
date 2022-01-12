@@ -15,6 +15,11 @@
     "tf"
   ],
 
+  "python.linting.enabled": false,
+  "python.formatting.blackPath": "black",
+  "pyright.enable": true,
+  "pyright.organizeimports.provider": "isort",
+
   "prettier.requireConfig": true,
   "prettier.disableSuccessMessage": true,
 
@@ -22,20 +27,6 @@
 
   "tsserver.enable": true,
   "tsserver.log": "verbose",
-
-  "python.pythonPath": "python",
-  "python.venvPath": "/Users/adr/.local/share/virtualenvs",
-
-  "python.jediEnabled": true,
-  "python.jediPath": " /Users/adr/.local/share/virtualenvs/drf-api-NgGjwmfI/lib/python3.7/site-packages/jedi",
-  "suggest.timeout": 5000,
-
-  "python.linting.enabled": true,
-  "python.linting.pylintPath": "/Users/adr/.local/share/virtualenvs/django-multitenancy-dNqlYlN_/bin/pylint",
-  "python.linting.pylintArgs": ["--rcfile", "./.pylintrc"],
-  "python.linting.flake8Enabled": false,
-  "python.formatting.provider": "black",
-  "python.formatting.blackPath": "/Users/adr/.local/share/virtualenvs/django-multitenancy-dNqlYlN_/bin/black",
 
   "languageserver": {
     "golang": {
@@ -62,8 +53,26 @@
     "<cr>": ["expandable?", "expand", "open"],
     "v": "open:vsplit"
   },
+  "explorer.file.hiddenRules": {
+    "extensions": [
+      "o",
+      "a",
+      "obj",
+      "pyc"
+    ],
+    "filenames": [],
+    "patternMatches": [
+      "^\\."
+    ]
+  },
+
+  "snippets.ultisnips.enable": true,
+  "snippets.ultisnips.directories": [
+    "UltiSnips"
+  ],
 
   "suggest.noselect": false,
+  "suggest.timeout": 5000,
 
   "diagnostic.errorSign": "✘",
   "diagnostic.infoSign": "?",

@@ -4,18 +4,25 @@
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'SirVer/ultisnips'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'garbas/vim-snipmate'
+Plug 'github/copilot.vim'
 Plug 'hashivim/vim-terraform'
 Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dif' : '~/.fzf', 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'neoclide/coc-eslint'
+Plug 'neoclide/coc-prettier'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'pangloss/vim-javascript'
+Plug 'peitalin/vim-jsx-typescript'
 Plug 'python/black'
+Plug 'reedes/vim-lexical'
 Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
 Plug 'tomtom/tcomment_vim'
@@ -24,6 +31,8 @@ Plug 'tpope/vim-surround'
 
 " Theme
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+
 
 call plug#end()
 
@@ -34,7 +43,7 @@ call plug#end()
 
 set t_Co=256
 set background=dark
-colorscheme PaperColor
+colorscheme onehalfdark
 
 set encoding=UTF-8
 set guifont=Fira\ Code:h12
@@ -45,10 +54,11 @@ let g:allow_bold = 1
 let g:allow_italic = 1
 let hightlight_builtins = 1
 
-if (has("termguicolors"))
- set termguicolors
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
 endif
-
 
 " =============================================================================
 " Leader
@@ -62,6 +72,7 @@ let mapleader="\<space>"
 " =============================================================================
 "
 nnoremap <leader>ve :vsplit ~/.config/nvim/init.vim<CR>
+nnoremap <leader>vc :vsplit ~/.config/nvim/coc-settings.json<CR>
 nnoremap <leader>vs :source ~/.config/nvim/init.vim<CR>
 nnoremap <leader>pi :PlugInstall<CR>
 nnoremap <leader>pu :PlugUpdate<CR>
@@ -109,13 +120,30 @@ nnoremap <D-Right> <C-w>>
 
 
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" Snippets configurations
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+"''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 " Show cursor only in the active view
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 augroup cursor_off
     autocmd!
-    autocmd WinLeave * set nocursorline nocursorcolumn
-    autocmd WinEnter * set cursorline cursorcolumn
+    autocmd WinLeave * set nocursorline
+    autocmd WinEnter * set cursorline
 augroup END
 
 
@@ -197,7 +225,7 @@ set visualbell                  " No sounds
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 set cursorline                  " Enable cursor line
-set cursorcolumn                " Enable cursor column
+" set cursorcolumn                " Enable cursor column
 
 
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -205,6 +233,19 @@ set cursorcolumn                " Enable cursor column
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 set spell spelllang=en_us,pt_br  " Set spell checker
+
+augroup lexical
+    autocmd!
+    autocmd FileType markdown,mkd,py call lexical#init()
+    autocmd FileType textile call lexical#init()
+    autocmd FileType text call lexical#init({ 'spell': 0 })
+augroup END
+
+let g:lexical#spell = 1
+let g:lexical#spelllang = ['en_us','pt_br',]
+let g:lexical#dictionary = ['/usr/share/dict/words',]
+let g:lexical#thesaurus = ['~/.config/nvim/thesaurus/moby_thesaurus.txt',]
+let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
 
 
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -359,7 +400,7 @@ let g:fzf_colors = {
 " =============================================================================
 
 let g:lightline = {
-      \ 'colorscheme': 'PaperColor',
+      \ 'colorscheme': 'onehalfdark',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
@@ -575,7 +616,26 @@ let g:terraform_align=1
 " Python
 " =============================================================================
 
-" let g:python_host_prog = '/usr/local/bin/python'
-" let g:python3_host_prog = '/usr/bin/python3'
+autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv', 'setup.cfg', 'setup.py', 'pyproject.toml', 'pyrightconfig.json']
+
+
+let g:python_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
 autocmd BufWritePre *.py execute ':Black'
+" autocmd BufWritePre *.py execute ':CocCommand python.sortImports'
+
+
+" =============================================================================
+" JS
+" =============================================================================
+
+" if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+"   let g:coc_global_extensions += ['coc-prettier']
+" endif
+"
+" if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+"   let g:coc_global_extensions += ['coc-eslint']
+" endif
+
+let g:js_file_import_sort_after_insert = 1
 
