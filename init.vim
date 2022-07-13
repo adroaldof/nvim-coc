@@ -3,29 +3,28 @@
 " =============================================================================
 call plug#begin('~/.config/nvim/plugged')
 
-" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'SirVer/ultisnips'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'hashivim/vim-terraform'
 Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/fzf', { 'dif' : '~/.fzf', 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'lambdalisue/glyph-palette.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'neoclide/coc-eslint'
 Plug 'neoclide/coc-prettier'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
 Plug 'peitalin/vim-jsx-typescript'
-Plug 'preservim/nerdtree'
 Plug 'python/black'
 Plug 'reedes/vim-lexical'
 Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
+Plug 'takac/vim-hardtime'
 Plug 'tomtom/tcomment_vim'
 Plug 'tomtom/tlib_vim'
 Plug 'tpope/vim-surround'
@@ -34,8 +33,35 @@ Plug 'tpope/vim-surround'
 " Plug 'NLKNguyen/papercolor-theme'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
-
 call plug#end()
+
+
+let g:hardtime_default_on = 1
+let g:hardtime_showmsg = 1
+let g:hardtime_maxcount = 2
+
+
+" =============================================================================
+" Theme related
+" =============================================================================
+
+let g:coc_global_extensions = [
+      \  'coc-docker',
+      \  'coc-emmet',
+      \  'coc-eslint',
+      \  'coc-explorer',
+      \  'coc-git', 
+      \  'coc-gitignore',
+      \  'coc-json', 
+      \  'coc-pairs',
+      \  'coc-prettier',
+      \  'coc-pyright',
+      \  'coc-sh',
+      \  'coc-snippets',
+      \  'coc-svg', 
+      \  'coc-tsserver',
+      \  'coc-css'
+      \]
 
 
 " =============================================================================
@@ -47,7 +73,7 @@ set background=dark
 colorscheme onehalfdark
 
 set encoding=UTF-8
-set guifont=Fira\ Code:h12
+set guifont=DroidSansMono_Nerd_Font:h12
 
 let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_conceal = 0
@@ -66,7 +92,6 @@ endif
 " ============================================================================
 
 let mapleader="\<space>"
-
 
 " =============================================================================
 " Configuration and plugin management
@@ -110,42 +135,56 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 
+"" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" coc-explorer
+" ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+let g:indentLine_fileTypeExclude = ['coc-explorer']
+
+augroup colour_glyph_palette
+  autocmd! *
+  autocmd FileType coc-explorer call glyph_palette#apply()
+augroup END
+
+
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 " Nerdtree
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+" ## Remember to include the following pages to be installed
+" Plug 'preservim/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 
-map <c-b> :NERDTreeToggle<CR>
-
-let g:webdevicons_enable_nerdtree = 1
-
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-  \ 'Modified'  :'✹',
-  \ 'Staged'    :'✚',
-  \ 'Untracked' :'✭',
-  \ 'Renamed'   :'➜',
-  \ 'Unmerged'  :'═',
-  \ 'Deleted'   :'✖',
-  \ 'Dirty'     :'✗',
-  \ 'Ignored'   :'☒',
-  \ 'Clean'     :'✔︎',
-  \ 'Unknown'   :'?',
-  \ }
-
-" enable line numbers
-let NERDTreeShowLineNumbers=1
-" make sure relative line numbers are used
-autocmd FileType nerdtree setlocal relativenumber
-
-" Exit Vim if NERDTree is the only window remaining in the only tab.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-
-" NERDTress File highlighting
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-    exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-    exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
-
-let NERDTreeIgnore=['__pycache__', '.vscode']
+" map <c-b> :NERDTreeToggle<CR>
+"
+" let g:webdevicons_enable_nerdtree = 1
+" let NERDTreeShowLineNumbers=1
+" let g:NERDTreeWinSize = 30
+"
+" let NERDTreeIgnore=['__pycache__', '.vscode']
+"
+" let g:NERDTreeGitStatusIndicatorMapCustom = {
+"   \ 'Modified'  :'✹',
+"   \ 'Staged'    :'✚',
+"   \ 'Untracked' :'✭',
+"   \ 'Renamed'   :'➜',
+"   \ 'Unmerged'  :'═',
+"   \ 'Deleted'   :'✖',
+"   \ 'Dirty'     :'✗',
+"   \ 'Ignored'   :'☒',
+"   \ 'Clean'     :'✔︎',
+"   \ 'Unknown'   :'?',
+"   \ }
+"
+" autocmd FileType nerdtree setlocal relativenumber
+"
+" " Exit Vim if NERDTree is the only window remaining in the only tab.
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"
+" " NERDTress File highlighting
+" function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+"     exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+"     exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+" endfunction
 
 
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -162,18 +201,18 @@ nnoremap <D-Right> <C-w>>
 " Snippets configurations
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-let g:coc_snippet_next = '<tab>'
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? coc#_select_confirm() :
+"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+"
+" let g:coc_snippet_next = '<tab>'
 
 "''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 " Show cursor only in the active view

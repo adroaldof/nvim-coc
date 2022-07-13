@@ -1,32 +1,44 @@
 {
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
-    "scss",
-    "less",
+    "go",
     "javascript",
     "javascriptreact",
     "json",
+    "less",
     "markdown",
     "python",
+    "scss",
+    "svg",
+    "tf",
     "typescript",
     "typescriptreact",
-    "svg",
-    "go",
-    "tf"
+    "yaml",
+    "yml"
   ],
 
   "python.linting.enabled": false,
   "python.formatting.blackPath": "black",
   "pyright.enable": true,
   "pyright.organizeimports.provider": "isort",
+  "pyright.completion.importSupport": true,
+  "pyright.completion.snippetSupport": true,
 
   "prettier.requireConfig": true,
-  "prettier.disableSuccessMessage": true,
 
   "eslint.autoFixOnSave": true,
 
   "tsserver.enable": true,
   "tsserver.log": "verbose",
+
+  "yaml.completion": true,
+  "yaml.enable": true,
+  "yaml.format.enable": true,
+  "yaml.format.bracketSpacing": true,
+  "yaml.format.singleQuote": false,
+  "yaml.schemaStore.enable": true,
+  "yaml.schemaStore.url": "https://www.schemastore.org/api/json/catalog.json",
+  "yaml.validate": true,
 
   "languageserver": {
     "golang": {
@@ -34,6 +46,10 @@
       "rootPatterns": ["go.mod"],
       "filetypes": ["go"]
     }
+  },
+
+  "yaml.schemas": {
+    "kubernetes": ["/*.yaml"]
   },
 
   "emmet.showExpandedAbbreviation": "always",
@@ -54,22 +70,13 @@
     "v": "open:vsplit"
   },
   "explorer.file.hiddenRules": {
-    "extensions": [
-      "o",
-      "a",
-      "obj",
-      "pyc"
-    ],
+    "extensions": ["o", "a", "obj", "pyc"],
     "filenames": [],
-    "patternMatches": [
-      "^\\."
-    ]
+    "patternMatches": ["^\\."]
   },
 
   "snippets.ultisnips.enable": true,
-  "snippets.ultisnips.directories": [
-    "UltiSnips"
-  ],
+  "snippets.ultisnips.directories": ["UltiSnips"],
 
   "suggest.noselect": false,
   "suggest.timeout": 5000,
