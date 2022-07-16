@@ -3,35 +3,47 @@
 " =============================================================================
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'SirVer/ultisnips'
-Plug 'Yggdroot/indentLine'
-Plug 'airblade/vim-gitgutter'
-Plug 'hashivim/vim-terraform'
-Plug 'inkarkat/vim-ReplaceWithRegister'
-Plug 'itchyny/lightline.vim'
-Plug 'jiangmiao/auto-pairs'
+" Fuzzy finder
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'lambdalisue/glyph-palette.vim'
-Plug 'leafgarland/typescript-vim'
+
+" LSP Release
 Plug 'neoclide/coc-eslint'
 Plug 'neoclide/coc-prettier'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'pangloss/vim-javascript'
-Plug 'peitalin/vim-jsx-typescript'
+
+" Language helpers
 Plug 'python/black'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'hashivim/vim-terraform'
+
 Plug 'reedes/vim-lexical'
-Plug 'ryanoasis/vim-devicons'
 Plug 'sheerun/vim-polyglot'
-Plug 'takac/vim-hardtime'
-Plug 'tomtom/tcomment_vim'
-Plug 'tomtom/tlib_vim'
+
+" Comments
+Plug 'pangloss/vim-javascript'
+Plug 'tpope/vim-commentary'
+Plug 'suy/vim-context-commentstring'
+
+" Text editor hepers
+Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-surround'
+Plug 'jiangmiao/auto-pairs'
+Plug 'airblade/vim-gitgutter'
+Plug 'takac/vim-hardtime'
+
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets' " Required by SirVer/ultisnips companion
 
 " Theme
 " Plug 'NLKNguyen/papercolor-theme'
+" Plug 'mhartington/oceanic-next'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'itchyny/lightline.vim'
+Plug 'lambdalisue/glyph-palette.vim'
+Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
@@ -92,6 +104,7 @@ endif
 " ============================================================================
 
 let mapleader="\<space>"
+imap jj <Esc>
 
 " =============================================================================
 " Configuration and plugin management
@@ -103,6 +116,14 @@ nnoremap <leader>vs :source ~/.config/nvim/init.vim<CR>
 nnoremap <leader>pi :PlugInstall<CR>
 nnoremap <leader>pu :PlugUpdate<CR>
 nnoremap <leader>pc :PlugClean<CR>
+
+
+" =============================================================================
+" Toggle comment
+" ============================================================================
+nnoremap <c-/><c-/> :Commentary<CR>
+nnoremap <c-/>b :CommentBlock<CR>
+nnoremap <c-/>r :CommentRight<CR>
 
 
 " =============================================================================
@@ -284,7 +305,7 @@ endfunction
 set autoread                    " Reload files changed outside vim
 set backspace=indent,eol,start  " Allow backspace in insert mode
 set confirm                     " Raise a dialog instead of failing a command
-set gcr=a:blinkon0              " Disable cursor blink
+" set gcr=a:blinkon0              " Disable cursor blink
 set hidden                      " Hide buffers from editor window
 set history=1000                " Store lots of :cmdline history
 set lazyredraw                  " Redraw screen only when it is needed
