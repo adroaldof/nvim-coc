@@ -7,6 +7,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 " LSP Release
 Plug 'neoclide/coc-eslint'
 Plug 'neoclide/coc-prettier'
@@ -44,6 +47,7 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'itchyny/lightline.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 call plug#end()
 
@@ -58,22 +62,21 @@ let g:hardtime_maxcount = 2
 " =============================================================================
 
 let g:coc_global_extensions = [
-      \  'coc-docker',
-      \  'coc-emmet',
-      \  'coc-eslint',
-      \  'coc-explorer',
-      \  'coc-git', 
-      \  'coc-gitignore',
-      \  'coc-json', 
-      \  'coc-pairs',
-      \  'coc-prettier',
-      \  'coc-pyright',
-      \  'coc-sh',
-      \  'coc-snippets',
-      \  'coc-svg', 
-      \  'coc-tsserver',
-      \  'coc-css'
-      \]
+\  'coc-docker',
+\  'coc-emmet',
+\  'coc-eslint',
+\  'coc-git', 
+\  'coc-gitignore',
+\  'coc-json', 
+\  'coc-pairs',
+\  'coc-prettier',
+\  'coc-pyright',
+\  'coc-sh',
+\  'coc-snippets',
+\  'coc-svg', 
+\  'coc-tsserver',
+\  'coc-css'
+\]
 
 
 " =============================================================================
@@ -94,9 +97,9 @@ let g:allow_italic = 1
 let hightlight_builtins = 1
 
 if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
 endif
 
 " =============================================================================
@@ -175,37 +178,38 @@ augroup END
 " Plug 'preservim/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" map <c-b> :NERDTreeToggle<CR>
-"
-" let g:webdevicons_enable_nerdtree = 1
-" let NERDTreeShowLineNumbers=1
-" let g:NERDTreeWinSize = 30
-"
-" let NERDTreeIgnore=['__pycache__', '.vscode']
-"
-" let g:NERDTreeGitStatusIndicatorMapCustom = {
-"   \ 'Modified'  :'✹',
-"   \ 'Staged'    :'✚',
-"   \ 'Untracked' :'✭',
-"   \ 'Renamed'   :'➜',
-"   \ 'Unmerged'  :'═',
-"   \ 'Deleted'   :'✖',
-"   \ 'Dirty'     :'✗',
-"   \ 'Ignored'   :'☒',
-"   \ 'Clean'     :'✔︎',
-"   \ 'Unknown'   :'?',
-"   \ }
-"
-" autocmd FileType nerdtree setlocal relativenumber
-"
-" " Exit Vim if NERDTree is the only window remaining in the only tab.
-" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-"
-" " NERDTress File highlighting
-" function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-"     exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-"     exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-" endfunction
+map <c-b> :NERDTreeToggle<CR>
+map <space>e :NERDTreeToggle<CR>
+
+let g:webdevicons_enable_nerdtree = 1
+let NERDTreeShowLineNumbers=1
+let g:NERDTreeWinSize = 35
+
+let NERDTreeIgnore=['__pycache__', '.vscode']
+
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+  \ 'Modified'  :'✹',
+  \ 'Staged'    :'✚',
+  \ 'Untracked' :'✭',
+  \ 'Renamed'   :'➜',
+  \ 'Unmerged'  :'═',
+  \ 'Deleted'   :'✖',
+  \ 'Dirty'     :'✗',
+  \ 'Ignored'   :'☒',
+  \ 'Clean'     :'✔︎',
+  \ 'Unknown'   :'?',
+  \ }
+
+autocmd FileType nerdtree setlocal relativenumber
+
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" NERDTress File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+    exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+    exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
 
 
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -650,7 +654,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Show all diagnostics.
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions.
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands.
 nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document.
@@ -664,9 +668,9 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-nmap <space>e :CocCommand explorer<CR>
-nmap <space>f :CocCommand explorer --preset floating<CR>
-autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+" nmap <space>e :CocCommand explorer<CR>
+" nmap <space>f :CocCommand explorer --preset floating<CR>
+" autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 
 
 " =============================================================================
