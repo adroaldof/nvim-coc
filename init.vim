@@ -42,9 +42,9 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets' " Required by SirVer/ultisnips companion
 
 " Theme
-" Plug 'NLKNguyen/papercolor-theme'
-" Plug 'mhartington/oceanic-next'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'NLKNguyen/papercolor-theme'
+" Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'mhartington/oceanic-next'
 Plug 'itchyny/lightline.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'ryanoasis/vim-devicons'
@@ -85,9 +85,16 @@ let g:coc_global_extensions = [
 " Theme related
 " =============================================================================
 
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+
 set t_Co=256
 set background=dark
-colorscheme onehalfdark
+colorscheme OceanicNext
+set laststatus=2
 
 set encoding=UTF-8
 set guifont=DroidSansMono_Nerd_Font:h12
@@ -98,11 +105,6 @@ let g:allow_bold = 1
 let g:allow_italic = 1
 let hightlight_builtins = 1
 
-if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
 
 " =============================================================================
 " Leader
@@ -340,6 +342,7 @@ set cursorline                  " Enable cursor line
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 set spell spelllang=en_us,pt_br  " Set spell checker
+set spelloptions=camel
 
 augroup lexical
     autocmd!
@@ -507,7 +510,7 @@ let g:fzf_colors = {
 " =============================================================================
 
 let g:lightline = {
-      \ 'colorscheme': 'onehalfdark',
+      \ 'colorscheme': 'PaperColor',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ],
