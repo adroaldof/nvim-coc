@@ -97,9 +97,9 @@ let g:allow_italic = 1
 let hightlight_builtins = 1
 
 if exists('+termguicolors')
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-set termguicolors
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
 endif
 
 " =============================================================================
@@ -108,6 +108,8 @@ endif
 
 let mapleader="\<space>"
 imap jj <Esc>
+imap jk <Esc>
+imap kj <Esc>
 
 " =============================================================================
 " Configuration and plugin management
