@@ -7,8 +7,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Nerdtree
+" Plug 'preservim/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " LSP Release
 Plug 'neoclide/coc-eslint'
@@ -62,20 +63,21 @@ let g:hardtime_maxcount = 2
 " =============================================================================
 
 let g:coc_global_extensions = [
+\  'coc-css',
 \  'coc-docker',
 \  'coc-emmet',
 \  'coc-eslint',
-\  'coc-git', 
+\  'coc-explorer',
+\  'coc-git',
 \  'coc-gitignore',
-\  'coc-json', 
+\  'coc-json',
 \  'coc-pairs',
 \  'coc-prettier',
 \  'coc-pyright',
 \  'coc-sh',
 \  'coc-snippets',
-\  'coc-svg', 
-\  'coc-tsserver',
-\  'coc-css'
+\  'coc-svg',
+\  'coc-tsserver'
 \]
 
 
@@ -180,38 +182,38 @@ augroup END
 " Plug 'preservim/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 
-map <c-b> :NERDTreeToggle<CR>
-map <space>e :NERDTreeToggle<CR>
+" map <c-b> :NERDTreeToggle<CR>
+" map <space>e :NERDTreeToggle<CR>
 
-let g:webdevicons_enable_nerdtree = 1
-let NERDTreeShowLineNumbers=1
-let g:NERDTreeWinSize = 35
+" let g:webdevicons_enable_nerdtree = 1
+" let NERDTreeShowLineNumbers=1
+" let g:NERDTreeWinSize = 35
 
-let NERDTreeIgnore=['__pycache__', '.vscode']
+" let NERDTreeIgnore=['__pycache__', '.vscode']
 
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-  \ 'Modified'  :'✹',
-  \ 'Staged'    :'✚',
-  \ 'Untracked' :'✭',
-  \ 'Renamed'   :'➜',
-  \ 'Unmerged'  :'═',
-  \ 'Deleted'   :'✖',
-  \ 'Dirty'     :'✗',
-  \ 'Ignored'   :'☒',
-  \ 'Clean'     :'✔︎',
-  \ 'Unknown'   :'?',
-  \ }
+" let g:NERDTreeGitStatusIndicatorMapCustom = {
+"   \ 'Modified'  :'✹',
+"   \ 'Staged'    :'✚',
+"   \ 'Untracked' :'✭',
+"   \ 'Renamed'   :'➜',
+"   \ 'Unmerged'  :'═',
+"   \ 'Deleted'   :'✖',
+"   \ 'Dirty'     :'✗',
+"   \ 'Ignored'   :'☒',
+"   \ 'Clean'     :'✔︎',
+"   \ 'Unknown'   :'?',
+"   \ }
 
-autocmd FileType nerdtree setlocal relativenumber
+" autocmd FileType nerdtree setlocal relativenumber
 
-" Exit Vim if NERDTree is the only window remaining in the only tab.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" " Exit Vim if NERDTree is the only window remaining in the only tab.
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
-" NERDTress File highlighting
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-    exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-    exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
+" " NERDTress File highlighting
+" function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+"     exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+"     exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+" endfunction
 
 
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -467,8 +469,8 @@ endif
 " Fzf - search and file oppener
 " =============================================================================
 
-Plug 'junegunn/fzf', { 'dif' : '~/.fzf', 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'dif' : '~/.fzf', 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
 
 " Ctrl + f to find files
 nnoremap <c-p> :Files<cr>
@@ -670,9 +672,8 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-" nmap <space>e :CocCommand explorer<CR>
-" nmap <space>f :CocCommand explorer --preset floating<CR>
-" autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+nmap <space>e :CocCommand explorer<CR>
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 
 
 " =============================================================================
