@@ -10,6 +10,7 @@ Plug 'junegunn/fzf.vim'
 " Nerdtree
 " Plug 'preservim/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " LSP Release
 Plug 'neoclide/coc-eslint'
@@ -17,16 +18,19 @@ Plug 'neoclide/coc-prettier'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Language helpers
-Plug 'python/black'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'pangloss/vim-javascript'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'yuezk/vim-js'
+Plug 'python/black'
 Plug 'hashivim/vim-terraform'
 
 Plug 'reedes/vim-lexical'
 Plug 'sheerun/vim-polyglot'
 
 " Comments
-Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-commentary'
 Plug 'suy/vim-context-commentstring'
 
@@ -42,13 +46,17 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets' " Required by SirVer/ultisnips companion
 
 " Theme
-Plug 'NLKNguyen/papercolor-theme'
+Plug 'sainnhe/everforest'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'ayu-theme/ayu-vim'
+" Plug 'mhartington/oceanic-next'
+" Plug 'sainnhe/gruvbox-material'
 " Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'mhartington/oceanic-next'
+" Plug 'jacoborus/tender.vim'
+"
 Plug 'itchyny/lightline.vim'
 Plug 'lambdalisue/glyph-palette.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 call plug#end()
 
@@ -93,7 +101,7 @@ endif
 
 set t_Co=256
 set background=dark
-colorscheme OceanicNext
+colorscheme neodark
 set laststatus=2
 
 set encoding=UTF-8
@@ -341,7 +349,7 @@ set cursorline                  " Enable cursor line
 " Spelling Configurations
 " ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-set spell spelllang=en_us,pt_br  " Set spell checker
+set spell spelllang=en,en_us,pt_br  " Set spell checker
 set spelloptions=camel
 
 augroup lexical
@@ -352,7 +360,7 @@ augroup lexical
 augroup END
 
 let g:lexical#spell = 1
-let g:lexical#spelllang = ['en_us','pt_br',]
+let g:lexical#spelllang = ['en', 'en_us','pt_br',]
 let g:lexical#dictionary = ['/usr/share/dict/words',]
 let g:lexical#thesaurus = ['~/.config/nvim/thesaurus/moby_thesaurus.txt',]
 let g:lexical#spellfile = ['~/.config/nvim/spell/en.utf-8.add',]
@@ -476,7 +484,8 @@ endif
 " Plug 'junegunn/fzf.vim'
 
 " Ctrl + f to find files
-nnoremap <c-p> :Files<cr>
+nnoremap <c-p> :GFiles<cr>
+" nnoremap <c-p> :Files<cr>
 " nnoremap <c-p> :GFiles --cached --others --exclude-standard<cr>
 
 " Ctrl + f to search for a pattern
@@ -747,4 +756,5 @@ autocmd BufWritePre *.py execute ':Black'
 " endif
 
 let g:js_file_import_sort_after_insert = 1
-
+let g:polyglot_disabled = ['jsx']
+let g:vim_jsx_pretty_colorful_config = 1
